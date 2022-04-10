@@ -77,15 +77,66 @@ const buscaCepPorEndereco = async () => {
     if(uf.length > 0 && cidade.length > 0 && rua.length > 0){
         if(uf.length == 2) {
             resposta = await fetchApiCep('',uf, cidade, rua);
-            if(resposta){
-                console.log(resposta);
+            if(!resposta.erro){
+                //console.log(resposta);
+                const divResposta = document.getElementById('resposta');
+                divResposta.innerHTML = '';
+                if(resposta.length > 0){
+                    const tabelaHtml = constroiTabelaHTML(divResposta);
+                    const cabecalho = criaCabecalho(["Cep","Logradouro","Complemento","Bairro","Localidade","UF","DDD"])
+                    tabelaHtml.appendChild(cabecalho);
+                    const corpoTabela = criaCorpoTabela();
+                    resposta.forEach((endereco) => {
+                        const linhaCorpo = criaLinhaCorpoTabela([endereco.cep, endereco.logradouro, endereco.complemento, endereco.bairro, endereco.localidade, endereco.uf, endereco.ddd]);
+                        corpoTabela.appendChild(linhaCorpo);
+                    })
+                    tabelaHtml.appendChild(corpoTabela);
+                    divResposta.appendChild(tabelaHtml);
+                }else {
+                    const nenhumValorRetornado = document.createElement('p');
+                    divResposta.appendChild(nenhumValorRetornado);
+                    nenhumValorRetornado.innerText = 'Nenhum valor foi retornado.';
+                }
             }
             else
-                console.log("Deu ruim");
+                alert("Erro ao executar a requisição!");
         }
         else
             alert("O campo UF deve ter exatamente 2 dígitos!");
     }
     else
         alert("Todos os campos devem ser preenchidos!");
+}
+
+function constroiTabelaHTML (elementoOrigem){
+    const tabela = document.createElement('table');
+    tabela.className = 'table table-dark';
+    elementoOrigem.appendChild(tabela);
+    return tabela;
+}
+
+function criaCabecalho(arrayTitulos) {
+    const cabecalho = document.createElement('thead');
+    const linhaCabecalho = document.createElement('tr');
+    arrayTitulos.forEach((elemento) => {
+        const thLinha = document.createElement('th');
+        thLinha.innerText = elemento;
+        linhaCabecalho.appendChild(thLinha);
+    })
+    cabecalho.appendChild(linhaCabecalho);
+    return cabecalho;
+}
+function criaCorpoTabela(){
+    const corpo = document.createElement("tbody");
+    return corpo;
+}
+
+function criaLinhaCorpoTabela(arrayDados){
+    const linhaBody = document.createElement('tr');
+    arrayDados.forEach((elemento) => {
+        const dado = document.createElement('td');
+        dado.innerText = elemento;
+        linhaBody.appendChild(dado);
+    })
+    return linhaBody;
 }
