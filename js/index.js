@@ -44,10 +44,18 @@ const fetchApiCep = async(cep) => {
 
 const buscarCep = async () => {
     const cep = document.getElementById("cep").value;
-    const resposta = await fetchApiCep(cep);
-    if(resposta){
-        console.log(`O endereço é: ${resposta.logradouro} - Bairro: ${resposta.bairro} - Cidade: ${resposta.localidade} - UF: ${resposta.uf}`);
+    if(cep != null  && cep != '' && cep.length == 8){
+        const resposta = await fetchApiCep(cep);
+        if(resposta){
+            console.log(`O endereço é: ${resposta.logradouro} - Bairro: ${resposta.bairro} - Cidade: ${resposta.localidade} - UF: ${resposta.uf}`);
+        }
+        else
+            console.log("Sem resultado");
     }
-    else
-        console.log("Sem resultado");
+    else{
+        if(cep == null || cep == '')
+            alert("O campo cep não deve ser vazio");
+        else
+            alert("O tamanho do cep deve ser de 8 caracteres");
+    }
 }
