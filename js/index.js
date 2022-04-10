@@ -151,3 +151,17 @@ function exercicio9 () {
         console.log(item.innerText);
     })
 }
+
+function inverteClasses() {
+    const itens = document.querySelectorAll(".azul, .vermelho")
+    itens.forEach((item) => {
+        if(item.className == 'azul'){
+            item.classList.remove('azul');
+            item.classList.add('vermelho');
+        }
+        else {
+            item.classList.remove('vermelho');
+            item.classList.add('azul');
+        }
+    })
+}
