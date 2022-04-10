@@ -29,3 +29,25 @@ let calcular = () => {
     resultadoDiv.appendChild(paragrafoResultado);
     paragrafoResultado.innerText = `O resultado é: ${resultado}`;
 }
+
+const fetchApiCep = async(cep) => {
+    const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`, {
+        method: 'GET',
+        headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+        }
+    })
+    if(response.ok)
+        return await response.json();
+}
+
+const buscarCep = async () => {
+    const cep = document.getElementById("cep").value;
+    const resposta = await fetchApiCep(cep);
+    if(resposta){
+        console.log(`O endereço é: ${resposta.logradouro} - Bairro: ${resposta.bairro} - Cidade: ${resposta.localidade} - UF: ${resposta.uf}`);
+    }
+    else
+        console.log("Sem resultado");
+}
