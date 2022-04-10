@@ -47,10 +47,19 @@ const buscarCep = async () => {
     if(cep != null  && cep != '' && cep.length == 8){
         const resposta = await fetchApiCep(cep);
         if(resposta){
-            console.log(`O endereço é: ${resposta.logradouro} - Bairro: ${resposta.bairro} - Cidade: ${resposta.localidade} - UF: ${resposta.uf}`);
+            if(!resposta.erro){
+                // console.log(`O endereço é: ${resposta.logradouro} - Bairro: ${resposta.bairro} - Cidade: ${resposta.localidade} - UF: ${resposta.uf}`);
+                const enderecoDiv = document.getElementById("endereco");
+                enderecoDiv.innerHTML = '';
+                const endereco = document.createElement('p');
+                enderecoDiv.appendChild(endereco);
+                endereco.innerText = `O endereço é: ${resposta.logradouro} - Bairro: ${resposta.bairro} - Cidade: ${resposta.localidade} - UF: ${resposta.uf}`;
+            }
+            else
+                alert("Erro ao buscar dados...");
         }
         else
-            console.log("Sem resultado");
+            alert("Sem resultados para a busca!")
     }
     else{
         if(cep == null || cep == '')
