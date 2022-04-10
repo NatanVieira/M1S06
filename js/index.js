@@ -74,11 +74,18 @@ const buscaCepPorEndereco = async () => {
     const uf = document.getElementById('uf').value.replace(' ','+');
     const cidade = document.getElementById('cidade').value.replace(' ','+');
     const rua = document.getElementById('rua').value.replace(' ','+');
-
-    resposta = await fetchApiCep('',uf, cidade, rua);
-    if(resposta){
-        console.log(resposta);
+    if(uf.length > 0 && cidade.length > 0 && rua.length > 0){
+        if(uf.length == 2) {
+            resposta = await fetchApiCep('',uf, cidade, rua);
+            if(resposta){
+                console.log(resposta);
+            }
+            else
+                console.log("Deu ruim");
+        }
+        else
+            alert("O campo UF deve ter exatamente 2 dígitos!");
     }
     else
-        console.log("Deu ruim");
+        alert("Todos os campos devem ser preenchidos!");
 }
