@@ -140,3 +140,14 @@ function criaLinhaCorpoTabela(arrayDados){
     })
     return linhaBody;
 }
+
+function exercicio9 () {
+    const titulo = document.querySelector('h1');
+    const descricao = document.querySelector('#descricao');
+    const itens  = document.querySelectorAll('.itens');
+    console.log(titulo.innerText);
+    console.log(descricao.innerText);
+    itens.forEach((item) => {
+        console.log(item.innerText);
+    })
+}
