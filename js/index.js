@@ -29,9 +29,10 @@ let calcular = () => {
     resultadoDiv.appendChild(paragrafoResultado);
     paragrafoResultado.innerText = `O resultado é: ${resultado}`;
 }
-
-const fetchApiCep = async(cep) => {
-    const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`, {
+const URL_CEP = 'https://viacep.com.br/ws';
+const fetchApiCep = async(cep, uf, cidade, rua) => {
+    let url_request = cep != '' && cep != null ? `${URL_CEP}/${cep}/json` : `${URL_CEP}/${uf}/${cidade}/${rua}/json`;
+    const response = await fetch(url_request, {
         method: 'GET',
         headers: {
             Accept: 'application/json',
@@ -67,4 +68,17 @@ const buscarCep = async () => {
         else
             alert("O tamanho do cep deve ser de 8 caracteres");
     }
+}
+
+const buscaCepPorEndereco = async () => {
+    const uf = document.getElementById('uf').value.replace(' ','+');
+    const cidade = document.getElementById('cidade').value.replace(' ','+');
+    const rua = document.getElementById('rua').value.replace(' ','+');
+
+    resposta = await fetchApiCep('',uf, cidade, rua);
+    if(resposta){
+        console.log(resposta);
+    }
+    else
+        console.log("Deu ruim");
 }
